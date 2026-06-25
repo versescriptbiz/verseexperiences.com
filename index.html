@@ -8,29 +8,47 @@
   <link rel="icon" href="logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      --bg: #070a12;
-      --panel: #111827;
-      --panel-2: #0d1422;
-      --border: rgba(255,255,255,.08);
-      --text: #f8fafc;
-      --muted: #9aa4b2;
-      --blue: #1f7aff;
-      --green: #22c55e;
-      --radius: 14px;
-      --container: 1280px;
+      color-scheme: dark;
+      --bg: #030303;
+      --bg-2: #080808;
+      --panel: #0d0d0d;
+      --panel-2: #121212;
+      --panel-3: #171717;
+      --line: #2b2b2b;
+      --line-strong: #ffffff;
+      --text: #f5f5f5;
+      --muted: #a3a3a3;
+      --muted-2: #6f6f6f;
+      --blue: #2f7dff;
+      --green: #21c45d;
+      --container: 1240px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
+      min-height: 100vh;
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        var(--bg);
+      background-size: 54px 54px;
       color: var(--text);
       line-height: 1.45;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(47,125,255,.11), transparent 260px);
+      z-index: -1;
     }
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
@@ -38,210 +56,294 @@
     .container { width: min(var(--container), calc(100% - 40px)); margin: 0 auto; }
 
     .nav {
-      height: 52px;
-      background: #060914;
-      border-bottom: 1px solid rgba(255,255,255,.06);
+      min-height: 64px;
       display: flex;
       align-items: center;
       position: sticky;
       top: 0;
       z-index: 20;
+      background: #050505;
+      border-bottom: 2px solid var(--line-strong);
     }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 800; font-size: 18px; }
-    .brand-mark { width: 28px; height: 28px; border-radius: 7px; object-fit: cover; }
-    .verified {
-      display: inline-grid;
-      place-items: center;
-      width: 18px;
-      height: 18px;
-      border-radius: 4px;
-      background: var(--blue);
-      color: white;
-      font-size: 12px;
-      transform: rotate(-8deg);
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      font-size: 18px;
+      text-transform: uppercase;
     }
-    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 0;
+      object-fit: cover;
+      border: 2px solid var(--line-strong);
+      background: #000;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      border: 2px solid var(--line-strong);
+      background: #000;
+    }
     .nav-links a {
-      padding: 8px 12px;
-      border-radius: 9px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
+      padding: 10px 16px;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      border-left: 2px solid var(--line-strong);
     }
-    .nav-links a:hover { background: rgba(255,255,255,.05); color: white; }
+    .nav-links a:first-child { border-left: 0; }
+    .nav-links a:hover { background: var(--line-strong); color: #000; }
 
     .hero {
       position: relative;
-      min-height: 228px;
+      min-height: 520px;
       display: grid;
-      place-items: center;
+      align-items: center;
       overflow: hidden;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      background: #08101d;
+      border-bottom: 2px solid var(--line-strong);
+      background: #050505;
     }
     .hero-bg {
       position: absolute;
-      inset: -18px;
-      background-image: url("hero.jpg");
+      inset: 0;
+      background-image:
+        linear-gradient(90deg, rgba(0,0,0,.96) 0%, rgba(0,0,0,.88) 42%, rgba(0,0,0,.45) 100%),
+        url("hero.jpg");
       background-size: cover;
       background-position: center;
-      filter: blur(8px);
-      transform: scale(1.05);
-      opacity: .68;
+      filter: grayscale(.15) contrast(1.15);
+      opacity: .9;
     }
     .hero::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(6,9,20,.36), rgba(6,9,20,.82));
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(90deg, black, transparent 82%);
+      pointer-events: none;
     }
     .hero-content {
       position: relative;
       z-index: 1;
-      text-align: center;
-      padding: 46px 0;
+      max-width: 820px;
+      padding: 86px 0 104px;
     }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 9px 12px;
+      border: 2px solid var(--line-strong);
+      background: #000;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      box-shadow: 8px 8px 0 #1a1a1a;
+    }
+    .status-dot { width: 9px; height: 9px; background: var(--green); border: 1px solid #b7ffd0; }
     .hero h1 {
-      font-size: clamp(34px, 5vw, 52px);
-      line-height: 1;
-      letter-spacing: -.045em;
-      font-weight: 800;
-      text-shadow: 0 2px 18px rgba(0,0,0,.45);
+      max-width: 850px;
+      font-size: clamp(48px, 8vw, 96px);
+      line-height: .86;
+      letter-spacing: -.08em;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-wrap: balance;
     }
     .hero p {
-      max-width: 680px;
-      margin: 14px auto 0;
-      color: #d6dbe5;
-      font-size: 16px;
+      max-width: 610px;
+      margin-top: 22px;
+      color: #d4d4d4;
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 600;
     }
-    .hero-actions { display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+    .hero-actions { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 40px;
-      padding: 0 20px;
-      border-radius: 7px;
-      border: 1px solid rgba(255,255,255,.35);
+      min-height: 48px;
+      padding: 0 22px;
+      border-radius: 0;
+      border: 2px solid var(--line-strong);
       color: white;
-      font-weight: 800;
-      font-size: 14px;
-      background: rgba(255,255,255,.04);
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      background: #0a0a0a;
+      box-shadow: 7px 7px 0 #1f1f1f;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease;
     }
-    .btn-primary { background: var(--blue); border-color: var(--blue); box-shadow: 0 8px 22px rgba(31,122,255,.28); }
+    .btn:hover { transform: translate(4px, 4px); box-shadow: 3px 3px 0 #1f1f1f; background: var(--line-strong); color: #000; }
+    .btn-primary { background: var(--blue); color: #fff; box-shadow: 7px 7px 0 #0c3476; }
+    .btn-primary:hover { box-shadow: 3px 3px 0 #0c3476; background: #fff; color: #000; }
 
-    .stats-wrap { padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
-    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .stats-wrap { padding: 26px 0; border-bottom: 2px solid var(--line-strong); background: #050505; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
     .stat-card {
       background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      min-height: 70px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 12px;
+      border: 2px solid var(--line-strong);
+      min-height: 112px;
+      display: flex;
+      align-items: center;
+      padding: 22px;
+      box-shadow: 8px 8px 0 #1a1a1a;
     }
     .stat-label {
       color: var(--muted);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: .08em;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .12em;
       text-transform: uppercase;
     }
-    .stat-value { margin-top: 4px; font-size: 20px; font-weight: 800; letter-spacing: -.035em; }
+    .stat-value { margin-top: 6px; font-size: clamp(28px, 4vw, 42px); line-height: 1; font-weight: 900; letter-spacing: -.06em; }
 
-    .section { padding: 38px 0 42px; border-bottom: 1px solid rgba(255,255,255,.06); }
-    .section-head { text-align: center; margin-bottom: 22px; }
-    .section-title { font-size: 24px; letter-spacing: -.035em; }
-    .section-text { margin-top: 4px; color: var(--muted); font-size: 14px; }
+    .section { padding: 58px 0 76px; border-bottom: 2px solid var(--line); }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+    .section-title { font-size: clamp(30px, 4vw, 48px); line-height: 1; letter-spacing: -.06em; font-weight: 900; text-transform: uppercase; }
+    .section-text { margin-top: 10px; color: var(--muted); font-size: 15px; font-weight: 600; }
+    .section-pill {
+      flex: 0 0 auto;
+      color: #fff;
+      border: 2px solid var(--line-strong);
+      background: #000;
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      box-shadow: 6px 6px 0 #1a1a1a;
+    }
 
+    .games-section + .games-section { margin-top: 54px; }
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 18px;
       align-items: stretch;
     }
     .game-card {
-      background: var(--panel-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+      position: relative;
+      background: var(--panel);
+      border: 2px solid var(--line-strong);
       overflow: hidden;
-      box-shadow: 0 16px 35px rgba(0,0,0,.24);
-      transition: transform .18s ease, border-color .18s ease;
+      box-shadow: 8px 8px 0 #1a1a1a;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
     }
-    .game-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.16); }
+    .game-card:hover { transform: translate(4px, 4px); box-shadow: 4px 4px 0 #1a1a1a; background: var(--panel-2); }
     .game-link { display: flex; flex-direction: column; min-height: 100%; }
-    .game-thumb { aspect-ratio: 16 / 10; background: #0f172a; overflow: hidden; }
-    .game-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .game-body { padding: 12px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
-    .game-title-row { display: grid; grid-template-columns: 44px 1fr; gap: 10px; align-items: center; }
-    .game-icon { width: 44px; height: 44px; border-radius: 9px; object-fit: cover; background: #0f172a; border: 1px solid rgba(255,255,255,.1); }
-    .game-title { font-size: 16px; line-height: 1.12; font-weight: 750; letter-spacing: -.025em; }
+    .game-thumb { aspect-ratio: 16 / 10; background: #000; overflow: hidden; position: relative; border-bottom: 2px solid var(--line-strong); }
+    .game-thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 46%, rgba(0,0,0,.62)); }
+    .game-thumb img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.08) saturate(.92); }
+    .game-body { padding: 15px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+    .game-title-row { display: grid; grid-template-columns: 50px 1fr; gap: 12px; align-items: center; }
+    .game-icon { width: 50px; height: 50px; border-radius: 0; object-fit: cover; background: #000; border: 2px solid var(--line-strong); }
+    .game-title { font-size: 17px; line-height: 1.08; font-weight: 900; letter-spacing: -.035em; text-transform: uppercase; }
     .game-creator {
       display: inline-flex;
       width: fit-content;
-      margin-top: 5px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(31,122,255,.18);
-      color: #bfd7ff;
+      margin-top: 7px;
+      padding: 4px 8px;
+      border: 1px solid var(--line-strong);
+      background: #000;
+      color: #fff;
       font-size: 10px;
-      font-weight: 800;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
     }
     .game-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: auto; }
-    .game-stat-value { font-size: 12px; font-weight: 800; }
-    .game-stat-label { font-size: 11px; color: var(--muted); }
+    .game-stat-box { border: 2px solid var(--line); padding: 10px; background: #080808; }
+    .game-stat-value { font-size: 15px; font-weight: 900; }
+    .game-stat-label { margin-top: 2px; font-size: 11px; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
     .play-btn {
-      min-height: 32px;
-      border-radius: 6px;
+      min-height: 40px;
+      border: 2px solid #8bffc0;
       background: var(--green);
-      color: white;
-      font-size: 13px;
-      font-weight: 800;
+      color: #001d0d;
+      font-size: 14px;
+      font-weight: 900;
       display: grid;
       place-items: center;
-      margin-top: 2px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
     }
+    .game-card:hover .play-btn { background: #fff; color: #000; border-color: #fff; }
 
     .contact-card {
-      max-width: 760px;
+      max-width: 920px;
       margin: 0 auto;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 22px;
+      background: #080808;
+      border: 2px solid var(--line-strong);
+      padding: clamp(26px, 5vw, 46px);
       text-align: center;
+      box-shadow: 10px 10px 0 #1a1a1a;
     }
-    .contact-card h3 { font-size: 22px; letter-spacing: -.03em; }
-    .contact-card p { margin-top: 8px; color: var(--muted); }
-    .contact-links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
-    .contact-links a { border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: #dce7f7; font-weight: 800; font-size: 13px; }
-    .contact-links a:hover { background: rgba(255,255,255,.05); }
-    .footer { padding: 24px 0; color: var(--muted); font-size: 13px; text-align: center; }
+    .contact-card h3 { font-size: clamp(28px, 4vw, 46px); line-height: .98; letter-spacing: -.065em; font-weight: 900; text-transform: uppercase; }
+    .contact-card p { max-width: 620px; margin: 14px auto 0; color: var(--muted); font-weight: 600; }
+    .contact-links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+    .contact-links a {
+      border: 2px solid var(--line-strong);
+      padding: 12px 18px;
+      color: #fff;
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: #000;
+      box-shadow: 6px 6px 0 #1f1f1f;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease;
+    }
+    .contact-links a:hover { transform: translate(3px, 3px); box-shadow: 3px 3px 0 #1f1f1f; background: #fff; color: #000; }
+    .footer { padding: 28px 0 38px; color: var(--muted-2); font-size: 13px; text-align: center; font-weight: 700; }
 
     .loading-state, .empty-state {
       grid-column: 1 / -1;
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+      padding: 26px;
+      border: 2px solid var(--line-strong);
       color: var(--muted);
       text-align: center;
       background: var(--panel);
+      box-shadow: 8px 8px 0 #1a1a1a;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .06em;
     }
 
     @media (max-width: 1100px) { .games-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 760px) {
+    @media (max-width: 820px) {
       .container { width: min(var(--container), calc(100% - 28px)); }
-      .nav { height: auto; padding: 12px 0; }
+      .nav { min-height: auto; padding: 12px 0; }
       .nav-inner { flex-direction: column; align-items: flex-start; }
-      .nav-links { width: 100%; justify-content: space-between; }
-      .hero { min-height: 280px; }
+      .nav-links { width: 100%; }
+      .nav-links a { flex: 1; text-align: center; }
+      .hero { min-height: 510px; }
+      .hero-content { padding: 70px 0 94px; }
       .stats-grid { grid-template-columns: 1fr; }
-      .games-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .section-head { display: block; }
+      .section-pill { display: inline-flex; margin-top: 14px; }
+      .games-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
     }
-    @media (max-width: 520px) { .games-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 560px) {
+      .hero h1 { font-size: clamp(42px, 15vw, 68px); }
+      .hero-actions .btn { width: 100%; }
+      .games-grid { grid-template-columns: 1fr; }
+      .brand { font-size: 16px; }
+    }
   </style>
 </head>
 <body>
@@ -251,8 +353,9 @@
         <img class="brand-mark" src="logo.png" alt="Verse Experiences logo" />
         <span>Verse Experiences</span>
       </a>
-      <div class="nav-links">
-        <a href="#experiences">Games</a>
+      <div class="nav-links" aria-label="Primary navigation">
+        <a href="#featured">Featured</a>
+        <a href="#other">Other</a>
         <a href="#contact">Contact</a>
       </div>
     </div>
@@ -262,11 +365,12 @@
     <section class="hero">
       <div class="hero-bg" aria-hidden="true"></div>
       <div class="container hero-content">
+        <div class="eyebrow"><span class="status-dot"></span>Live Roblox studio stats</div>
         <h1>Verse Experiences</h1>
-        <p>Track our Roblox projects all in one place.</p>
+        <p>A sharp, live dashboard for our Roblox projects, player counts, total plays, and featured experiences.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#experiences">View Games</a>
-          <a class="btn" href="#contact">Learn More</a>
+          <a class="btn btn-primary" href="#featured">View Games</a>
+          <a class="btn" href="#contact">Contact Studio</a>
         </div>
       </div>
     </section>
@@ -287,7 +391,7 @@
         </article>
         <article class="stat-card">
           <div>
-            <div class="stat-label">Featured Games</div>
+            <div class="stat-label">Games</div>
             <div class="stat-value" id="snapshotGames">0</div>
           </div>
         </article>
@@ -296,12 +400,30 @@
 
     <section class="section" id="experiences">
       <div class="container">
-        <div class="section-head">
-          <h2 class="section-title">Featured Games</h2>
-          <p class="section-text">Live stats from our Roblox projects</p>
+        <div class="games-section" id="featured">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Featured Games</h2>
+              <p class="section-text">Main Verse Experiences projects</p>
+            </div>
+            <div class="section-pill">Updates every 60 seconds</div>
+          </div>
+          <div id="featuredGames" class="games-grid">
+            <div class="loading-state">Loading featured experiences...</div>
+          </div>
         </div>
-        <div id="games" class="games-grid">
-          <div class="loading-state">Loading experiences...</div>
+
+        <div class="games-section" id="other">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Other Games</h2>
+              <p class="section-text">Additional Roblox projects and previously owned experiences</p>
+            </div>
+            <div class="section-pill">Secondary catalog</div>
+          </div>
+          <div id="otherGames" class="games-grid">
+            <div class="loading-state">Loading other experiences...</div>
+          </div>
         </div>
       </div>
     </section>
@@ -328,15 +450,27 @@
   <script>
     const WORKER = "https://api.verseexperiences.workers.dev/proxy?url=";
 
-    const universeIds = [
+    // Main games shown in the Featured Games section.
+    const featuredUniverseIds = [
       "7688358693",
       "8554070482",
-      "8103533185",
-      "8497165255",
-      "10001108091",
-      "10059424954",
-      "7277414074"
+      "8103533185"
     ];
+
+    // Extra games shown in the Other Games section.
+    const otherUniverseIds = [
+      "8497165255",
+     // "10001108091",
+     // "10059424954",
+      "7277414074",
+     // "8161396734",
+     // "9110222521",
+     // "9692195654",
+     // "7798503466",
+     // "6589949997"/
+    ];
+
+    const universeIds = [...featuredUniverseIds, ...otherUniverseIds];
 
     const short = (n) => {
       n = Number(n) || 0;
@@ -360,13 +494,13 @@
       return fallback.json();
     }
 
-    const fetchGames = () =>
-      fetchJSON("https://games.roblox.com/v1/games?universeIds=" + universeIds.join(","));
+    const fetchGames = (ids) =>
+      fetchJSON("https://games.roblox.com/v1/games?universeIds=" + ids.join(","));
 
-    const fetchThumbs = () =>
+    const fetchThumbs = (ids) =>
       fetchJSON(
         "https://thumbnails.roblox.com/v1/games/icons?universeIds=" +
-          universeIds.join(",") +
+          ids.join(",") +
           "&size=512x512&format=Png&isCircular=false"
       );
 
@@ -393,17 +527,17 @@
                 <img class="game-icon" src="${imageUrl || "hero.jpg"}" alt="" aria-hidden="true" loading="lazy" />
                 <div>
                   <h3 class="game-title">${game.name}</h3>
-                 <span class="game-creator">${ownership}</span>
+                  <span class="game-creator">${ownership}</span>
                 </div>
               </div>
               <div class="game-stats">
-                <div>
+                <div class="game-stat-box">
                   <div class="game-stat-value">${short(game.playing)}</div>
                   <div class="game-stat-label">Playing</div>
                 </div>
-                <div style="text-align:right">
+                <div class="game-stat-box">
                   <div class="game-stat-value">${short(game.visits)}</div>
-                  <div class="game-stat-label">Visits</div>
+                  <div class="game-stat-label">Plays</div>
                 </div>
               </div>
               <div class="play-btn">▶ Play</div>
@@ -413,39 +547,65 @@
       `;
     }
 
+    function renderGameSection(gamesDiv, games, thumbs, emptyText) {
+      const sorted = [...games].sort((a, b) => (Number(b.playing) || 0) - (Number(a.playing) || 0));
+
+      if (!sorted.length) {
+        gamesDiv.innerHTML = `<div class="empty-state">${emptyText}</div>`;
+        return { players: 0, visits: 0, games: 0 };
+      }
+
+      let totalPlayers = 0;
+      let totalVisits = 0;
+
+      gamesDiv.innerHTML = sorted.map((game) => {
+        totalPlayers += Number(game.playing) || 0;
+        totalVisits += Number(game.visits) || 0;
+        return makeGameCard(game, thumbs.get(game.id) || "hero.jpg");
+      }).join("");
+
+      return { players: totalPlayers, visits: totalVisits, games: sorted.length };
+    }
+
     async function load() {
-      const gamesDiv = document.getElementById("games");
-      gamesDiv.innerHTML = '<div class="loading-state">Loading experiences...</div>';
+      const featuredDiv = document.getElementById("featuredGames");
+      const otherDiv = document.getElementById("otherGames");
+
+      featuredDiv.innerHTML = '<div class="loading-state">Loading featured experiences...</div>';
+      otherDiv.innerHTML = '<div class="loading-state">Loading other experiences...</div>';
 
       try {
-        const [gamesResponse, thumbsResponse] = await Promise.all([fetchGames(), fetchThumbs()]);
+        const [gamesResponse, thumbsResponse] = await Promise.all([fetchGames(universeIds), fetchThumbs(universeIds)]);
         const games = Array.isArray(gamesResponse?.data) ? gamesResponse.data : [];
         const thumbs = new Map((thumbsResponse?.data || []).map((item) => [item.targetId, item.imageUrl]));
-        const sorted = [...games].sort((a, b) => (Number(b.playing) || 0) - (Number(a.playing) || 0));
 
-        if (!sorted.length) {
-          document.getElementById("snapshotPlayers").textContent = "0";
-          document.getElementById("snapshotVisits").textContent = "0";
-          document.getElementById("snapshotGames").textContent = "0";
-          gamesDiv.innerHTML = '<div class="empty-state">No experiences are available right now.</div>';
-          return;
-        }
+        const featuredSet = new Set(featuredUniverseIds.map(String));
+        const otherSet = new Set(otherUniverseIds.map(String));
 
-        let totalPlayers = 0;
-        let totalVisits = 0;
+        const featuredGames = games.filter((game) => featuredSet.has(String(game.id)));
+        const otherGames = games.filter((game) => otherSet.has(String(game.id)));
 
-        gamesDiv.innerHTML = sorted.map((game) => {
-          totalPlayers += Number(game.playing) || 0;
-          totalVisits += Number(game.visits) || 0;
-          return makeGameCard(game, thumbs.get(game.id) || "hero.jpg");
-        }).join("");
+        const featuredTotals = renderGameSection(
+          featuredDiv,
+          featuredGames,
+          thumbs,
+          "No featured experiences are available right now."
+        );
 
-        document.getElementById("snapshotPlayers").textContent = comma(totalPlayers);
-        document.getElementById("snapshotVisits").textContent = short(totalVisits);
-        document.getElementById("snapshotGames").textContent = comma(sorted.length);
+        const otherTotals = renderGameSection(
+          otherDiv,
+          otherGames,
+          thumbs,
+          "No other experiences are available right now."
+        );
+
+        document.getElementById("snapshotPlayers").textContent = comma(featuredTotals.players + otherTotals.players);
+        document.getElementById("snapshotVisits").textContent = short(featuredTotals.visits + otherTotals.visits);
+        document.getElementById("snapshotGames").textContent = comma(featuredTotals.games + otherTotals.games);
       } catch (error) {
         console.error("Failed to load experiences:", error);
-        gamesDiv.innerHTML = '<div class="empty-state">Unable to load experiences right now. Please try again shortly.</div>';
+        featuredDiv.innerHTML = '<div class="empty-state">Unable to load featured experiences right now. Please try again shortly.</div>';
+        otherDiv.innerHTML = '<div class="empty-state">Unable to load other experiences right now. Please try again shortly.</div>';
       }
     }
 
