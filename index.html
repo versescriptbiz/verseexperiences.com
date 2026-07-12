@@ -266,6 +266,34 @@
       letter-spacing: .08em;
       text-transform: uppercase;
     }
+    .game-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 22px;
+      color: #b9b9b9;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .game-stars {
+      position: relative;
+      display: inline-block;
+      color: #555;
+      font-size: 15px;
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+    .game-stars-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      overflow: hidden;
+      color: #ffc928;
+      white-space: nowrap;
+    }
+    .game-rating-count { color: #b9b9b9; }
+    .game-price { color: #d8d8d8; }
+    .game-rating-separator { color: #666; }
     .game-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: auto; }
     .game-stat-box { border: 2px solid var(--line); padding: 10px; background: #080808; }
     .game-stat-value { font-size: 15px; font-weight: 900; }
@@ -504,7 +532,10 @@
           "&size=512x512&format=Png&isCircular=false"
       );
 
-    function makeGameCard(game, imageUrl) {
+    const fetchVotes = (ids) =>
+      fetchJSON("https://games.roblox.com/v1/games/votes?universeIds=" + ids.join(","));
+
+    function makeGameCard(game, imageUrl, voteData) {
       const ownedStudios = ["Verse Experiences", "Our Arcade", "Verse Works"];
 
       const originalCreator =
@@ -515,6 +546,14 @@
       const ownership = ownedStudios.includes(originalCreator)
         ? "Owned"
         : "Previously Owned";
+
+      const upVotes = Number(voteData?.upVotes) || 0;
+      const downVotes = Number(voteData?.downVotes) || 0;
+      const totalVotes = upVotes + downVotes;
+      const ratingPercent = totalVotes > 0 ? (upVotes / totalVotes) * 100 : 100;
+      const ratingWidth = Math.max(0, Math.min(100, ratingPercent));
+      const ratingCount = totalVotes || Number(game.favoritedCount) || 0;
+      const priceLabel = Number(game.price) > 0 ? `${comma(game.price)} Robux` : "Free";
 
       return `
         <article class="game-card">
@@ -529,6 +568,15 @@
                   <h3 class="game-title">${game.name}</h3>
                   <span class="game-creator">${ownership}</span>
                 </div>
+              </div>
+              <div class="game-rating" aria-label="${ratingPercent.toFixed(0)} percent positive from ${comma(ratingCount)} ratings">
+                <span class="game-stars" aria-hidden="true">
+                  ★★★★★
+                  <span class="game-stars-fill" style="width: ${ratingWidth}%">★★★★★</span>
+                </span>
+                <span class="game-rating-count">(${comma(ratingCount)})</span>
+                <span class="game-rating-separator">·</span>
+                <span class="game-price">${priceLabel}</span>
               </div>
               <div class="game-stats">
                 <div class="game-stat-box">
@@ -547,7 +595,7 @@
       `;
     }
 
-    function renderGameSection(gamesDiv, games, thumbs, emptyText) {
+    function renderGameSection(gamesDiv, games, thumbs, votes, emptyText) {
       const sorted = [...games].sort((a, b) => (Number(b.playing) || 0) - (Number(a.playing) || 0));
 
       if (!sorted.length) {
@@ -561,7 +609,7 @@
       gamesDiv.innerHTML = sorted.map((game) => {
         totalPlayers += Number(game.playing) || 0;
         totalVisits += Number(game.visits) || 0;
-        return makeGameCard(game, thumbs.get(game.id) || "hero.jpg");
+        return makeGameCard(game, thumbs.get(game.id) || "hero.jpg", votes.get(game.id));
       }).join("");
 
       return { players: totalPlayers, visits: totalVisits, games: sorted.length };
@@ -575,9 +623,14 @@
       otherDiv.innerHTML = '<div class="loading-state">Loading other experiences...</div>';
 
       try {
-        const [gamesResponse, thumbsResponse] = await Promise.all([fetchGames(universeIds), fetchThumbs(universeIds)]);
+        const [gamesResponse, thumbsResponse, votesResponse] = await Promise.all([
+          fetchGames(universeIds),
+          fetchThumbs(universeIds),
+          fetchVotes(universeIds)
+        ]);
         const games = Array.isArray(gamesResponse?.data) ? gamesResponse.data : [];
         const thumbs = new Map((thumbsResponse?.data || []).map((item) => [item.targetId, item.imageUrl]));
+        const votes = new Map((votesResponse?.data || []).map((item) => [item.id, item]));
 
         const featuredSet = new Set(featuredUniverseIds.map(String));
         const otherSet = new Set(otherUniverseIds.map(String));
@@ -589,6 +642,7 @@
           featuredDiv,
           featuredGames,
           thumbs,
+          votes,
           "No featured experiences are available right now."
         );
 
@@ -596,6 +650,7 @@
           otherDiv,
           otherGames,
           thumbs,
+          votes,
           "No other experiences are available right now."
         );
 
